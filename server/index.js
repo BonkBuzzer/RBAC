@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { default: mongoose } = require("mongoose");
-const userRouter = require("./routes/user.routes");
+const userRouter = require("./routes/users.routes");
 const authRouter = require("./routes/auth.routes");
 const auth = require("./middleware/auth");
 const cookieParser = require("cookie-parser");

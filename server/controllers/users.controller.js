@@ -53,4 +53,29 @@ const creatUser = async (req, res) => {
   }
 };
 
-module.exports = { creatUser };
+const readUserData = async (req, res) => {
+  const { role, id } = req.body;
+
+  if (!role) {
+    return res.status(402).json({ message: "Role type is required" });
+  }
+
+  try {
+    let query = {};
+    if (role === "user" && id) {
+      query = { _id: new mongoose.Types.ObjectId(id) };
+    } else if (role === "superAdmin") {
+      query = {};
+    } else if (role === "dev" || role === "cust support") {
+      query = { userType: "user" };
+    } else {
+      return res.status(402).json({ message: "invalid role type" });
+    }
+    const data = await Employee.find(query);
+    return res.status(200).json({ userData: data, message: "ok!" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+module.exports = { creatUser, readUserData };
